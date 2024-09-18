@@ -1,0 +1,14 @@
+{
+    "hello": "Hi",
+    "slogan": "Explore the world",
+    "login": "Login",
+    "password": "Password",
+    "pronounce": "Pronounce",
+    "audio_not_found": "Audio not found",
+    "source": "Source",
+    "example": "Example",
+    "unknown": "Unknown",
+    "service_error": "Our service is unavailable now, Sorry for that. Please try later"
+
+    
+}
