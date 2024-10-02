@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:one_word/key.dart';
 import 'package:one_word/main.dart';
 import 'package:http/http.dart' as http;
 
@@ -33,7 +34,9 @@ class OneWordAppState extends State<OneWordApp> {
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.instance.getToken(vapidKey: '').then(setToken);
+    FirebaseMessaging.instance
+        .getToken(vapidKey: SecretKey.firebaseKey)
+        .then(setToken);
     _tokenStream = FirebaseMessaging.instance.onTokenRefresh;
     _tokenStream.listen(setToken);
 
