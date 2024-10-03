@@ -32,6 +32,7 @@ migrate_working_dir/
 .pub/
 /build/
 lib/key.dart
+android/oneword-437414-8c7bda0b566d.json
 
 # Symbolication related
 app.*.symbols
