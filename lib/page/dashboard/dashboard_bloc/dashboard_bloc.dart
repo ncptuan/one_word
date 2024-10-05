@@ -1,16 +1,16 @@
-import 'package:auto_route/auto_route.dart';
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:one_word/core/bloc/base_event.dart';
 import 'package:one_word/core/core.dart';
 import 'package:one_word/page/dashboard/dashboard_bloc/dashboard.dart';
-import 'package:one_word/route/router.dart';
 
 import '../../../helpers/helpers.dart';
 import '../../../models/models.dart';
 import '../../../../core/bloc/bloc_core.dart';
 import '../../../services/services.dart';
 
-class DashboardBloc extends BaseCubit<DashboardViewModel, DashboardParams> {
+class DashboardBloc extends BaseBloc<DashboardViewModel, DashboardParams> {
   final DictionaryApiService dictionaryApiService;
 
   DashboardBloc(
@@ -22,39 +22,67 @@ class DashboardBloc extends BaseCubit<DashboardViewModel, DashboardParams> {
             wordInformation: DictionaryObject(),
           ),
           param: DashboardParams(),
-        );
+        ) {
+    on<InitEvent>((event, emit) async {
+      emit(LoadingState());
+      await readJson();
+      final reponse =
+          await dictionaryApiService.getWordDetail(model?.dailyWord ?? "");
+      if ((reponse.data == null) && reponse.isSuccess) {
+        readJson();
+        emit(LoadingState());
+        return;
+      }
+      if (reponse.isFailure) {
+        emit(APIErrorState(reponse.error.toString(), params: param));
+        return;
+      }
+      model?.wordInformation = reponse.data?.dataResponse.items?.first;
+      param?.numberOfAPIError = 0;
+      emit(LoadedState(param, model));
+      return;
+    });
+
+    on<ErrorEvent>((event, emit) async {
+      param?.numberOfAPIError++;
+      if ((param?.numberOfAPIError ?? 10) <= 5) {
+        add(InitEvent());
+        return;
+      } else {
+        emit(ErrorState(event.message ?? ""));
+        return;
+      }
+    });
+  }
 
   Future<void> readJson() async {
     String response = await GetEnglistWordHelper.readWordFromJson();
 
     model?.dailyWord = response;
-    await getWordInformation(key: model?.dailyWord ?? '');
+    // await getWordInformation(key: model?.dailyWord ?? '');
   }
 
-  Future<void> getWordInformation({required String key}) async {
-    final reponse = await dictionaryApiService.getWordDetail(key);
-    if ((reponse.data == null) && reponse.isSuccess) {
-      readJson();
-      emit(LoadingState());
-      return;
-    }
-    if (reponse.isFailure) {
-      emit(
-        APIErrorState(reponse.error.toString(), params: param),
-      );
-      return;
-    }
-    model?.wordInformation = reponse.data?.dataResponse.items?.first;
-    param?.numberOfAPIError = 0;
-    emit(LoadedState(param, model));
-    return;
-  }
+  // Future<void> getWordInformation({required String key}) async {
+  //   final reponse = await dictionaryApiService.getWordDetail(key);
+  //   if ((reponse.data == null) && reponse.isSuccess) {
+  //     readJson();
+  //     emit(LoadingState());
+  //     return;
+  //   }
+  //   if (reponse.isFailure) {
+  //     emit(APIErrorState(reponse.error.toString(), params: param));
+  //     return;
+  //   }
+  //   model?.wordInformation = reponse.data?.dataResponse.items?.first;
+  //   param?.numberOfAPIError = 0;
+  //   emit(LoadedState(param, model));
+  //   return;
+  // }
 
-  @override
-  void initState() {
-    emit(LoadingState());
-    readJson();
-  }
+  // void initState() {
+  //   emit(LoadingState());
+  //   readJson();
+  // }
 
   String loadRandomImageLink(Size size) {
     final width = size.width.toInt();
@@ -79,13 +107,13 @@ class DashboardBloc extends BaseCubit<DashboardViewModel, DashboardParams> {
   }
 
   void handleAPIEror({String? errorMessage}) {
-    param?.numberOfAPIError++;
-    if ((param?.numberOfAPIError ?? 10) <= 5) {
-      initState();
-      return;
-    } else {
-      emit(ErrorState(errorMessage ?? ""));
-      return;
-    }
+    // param?.numberOfAPIError++;
+    // if ((param?.numberOfAPIError ?? 10) <= 5) {
+    //   initState();
+    //   return;
+    // } else {
+    //   emit(ErrorState(errorMessage ?? ""));
+    //   return;
+    // }
   }
 }
