@@ -49,7 +49,7 @@ class MyTheme {
           fontFamily: fontFamily,
         ),
         displayMedium: TextStyle(
-          color: MyColors.whiteColor,
+          color: MyColors.blackColor,
           fontWeight: FontWeight.w700,
           fontSize: Dimens.size24,
           fontFamily: fontFamily,

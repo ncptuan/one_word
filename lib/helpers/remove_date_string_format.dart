@@ -11,6 +11,5 @@ class DateStringFormatHelper {
       date.length,
       '',
     );
-    ;
   }
 }
