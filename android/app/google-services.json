@@ -1,40 +1,21 @@
 {
   "project_info": {
-    "project_number": "640944653867",
-    "project_id": "chatdemo-e899d",
-    "storage_bucket": "chatdemo-e899d.appspot.com"
+    "project_number": "603670153008",
+    "project_id": "one-word-e92cb",
+    "storage_bucket": "one-word-e92cb.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:640944653867:android:8bec9727ccbffd4f61cc6e",
+        "mobilesdk_app_id": "1:603670153008:android:9788688ce049d44e4aeaf5",
         "android_client_info": {
-          "package_name": "com.example.demo_chat"
+          "package_name": "com.ptw.oneword"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBSbYdoHFfmm4_P8qqDXLugwdhgT_F5St0"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:640944653867:android:e3be6e678b604d6461cc6e",
-        "android_client_info": {
-          "package_name": "com.example.one_word"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBSbYdoHFfmm4_P8qqDXLugwdhgT_F5St0"
+          "current_key": "AIzaSyDhMDG8J0jktIXQSjVuyIH-FewKTF6toO0"
         }
       ],
       "services": {
