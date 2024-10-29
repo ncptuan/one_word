@@ -34,22 +34,22 @@ class OneWordAppState extends State<OneWordApp> {
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.instance
-        .getToken(vapidKey: SecretKey.firebaseKey)
-        .then(setToken);
-    _tokenStream = FirebaseMessaging.instance.onTokenRefresh;
-    _tokenStream.listen(setToken);
+    // FirebaseMessaging.instance
+    //     .getToken(vapidKey: SecretKey.firebaseKey)
+    //     .then(setToken);
+    // _tokenStream = FirebaseMessaging.instance.onTokenRefresh;
+    // _tokenStream.listen(setToken);
 
-    FirebaseMessaging.instance.getInitialMessage().then(
-          (value) => setState(
-            () {
-              _resolved = true;
-              initialMessage = value?.data.toString();
-            },
-          ),
-        );
+    // FirebaseMessaging.instance.getInitialMessage().then(
+    //       (value) => setState(
+    //         () {
+    //           _resolved = true;
+    //           initialMessage = value?.data.toString();
+    //         },
+    //       ),
+    //     );
 
-    FirebaseMessaging.onMessage.listen(showFlutterNotification);
+    // FirebaseMessaging.onMessage.listen(showFlutterNotification);
   }
 
   final _appRouter = AppDependencies.injector.get<AppRouter>();
