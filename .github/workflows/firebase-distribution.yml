@@ -1,0 +1,56 @@
+name: Flutter CI/CD with Firebase Distribution
+
+on:
+  push:
+    branches:
+      - main  # Runs on pushes to the main branch
+
+jobs:
+  distribute:
+    runs-on: macos-latest  # Use macOS to support both Android and iOS builds
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.1'
+          architecture: 'x64'
+          cache: false  # Forces a fresh installation
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      # Android Build and Distribution
+      - name: Build Android APK
+        run: flutter build apk --release
+        env:
+          ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+
+      - name: Distribute Android APK to Firebase
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID_ANDROID }}
+          token: ${{ secrets.FIREBASE_TOKEN }}
+          groups: testers
+          file: build/app/outputs/flutter-apk/app-release.apk
+
+      # iOS Build and Distribution
+      # - name: Build iOS IPA
+      #   run: flutter build ipa --release
+      #   env:
+      #     APPLE_ID: ${{ secrets.APPLE_ID }}
+      #     APP_SPECIFIC_PASSWORD: ${{ secrets.APP_SPECIFIC_PASSWORD }}
+
+      # - name: Distribute iOS IPA to Firebase
+      #   uses: wzieba/Firebase-Distribution-Github-Action@v1
+      #   with:
+      #     appId: ${{ secrets.FIREBASE_APP_ID_IOS }}
+      #     token: ${{ secrets.FIREBASE_TOKEN }}
+      #     groups: testers
+      #     file: build/ios/ipa/Runner.ipa
