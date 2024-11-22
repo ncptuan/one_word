@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:one_word/core/bloc/base_event.dart';
 import 'package:one_word/extensions/extension.dart';
 
 import 'package:one_word/page/dashboard/dashboard_bloc/dashboard.dart';
@@ -29,7 +30,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   @override
   void initState() {
     super.initState();
-    bloc.initState();
+    // bloc.initState();
+    bloc.add(InitEvent());
   }
 
   @override
@@ -59,7 +61,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             ),
           );
         } else if (state is APIErrorState) {
-          bloc.handleAPIEror(errorMessage: state.message);
+          bloc.add(ErrorEvent());
           return const SizedBox(
             height: Dimens.size100,
             width: Dimens.size100,

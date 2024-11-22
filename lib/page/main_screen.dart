@@ -3,10 +3,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:one_word/route/route.dart';
 
-import '../dependencies.dart';
 import '../models/data/data.dart';
 import '../style/style.dart';
-import '../utility/utility.dart';
 
 @RoutePage()
 class MainScreen extends StatefulWidget {
